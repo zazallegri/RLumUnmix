@@ -1,5 +1,5 @@
 compare_parameters <- function(param_set1, param_set2) {
-    
+
   # Get common elements
   common_elements <- intersect(names(param_set1), names(param_set2))
 
@@ -24,8 +24,8 @@ compare_parameters <- function(param_set1, param_set2) {
           print(param_set2[[non_common_element]])
   }
       }
-    
-} 
+
+}
 
 
 measure_SAR_OSL_copy <- function(
@@ -35,26 +35,26 @@ measure_SAR_OSL_copy <- function(
 ) {
 
   # This function is a copy of [measure_SAR_OSL()] from the sandbox package
-  
+
   # Self-call ---------------------------------------------------------------
   if (is(aliquot, "list"))
     return(lapply(aliquot, measure_SAR_OSL, sequence = sequence, dose_rate = dose_rate))
 
   # Check incoming ----------------------------------------------------------
   if (is.null(attributes(aliquot)$package) || attributes(aliquot)$package != "sandbox")
-    stop("[measure_SAR_OSL()] the input for aliquot is not an object created by 'sandbox'!", 
+    stop("[measure_SAR_OSL()] the input for aliquot is not an object created by 'sandbox'!",
          call. = FALSE)
-  
+
   if (!is(aliquot, "data.frame"))
-    stop("[measure_SAR_OSL()] the input for aliquot is not of type data.frame!", 
+    stop("[measure_SAR_OSL()] the input for aliquot is not of type data.frame!",
          call. = FALSE)
-  
+
 
   ## PART 1 - separate OSL components -----------------------------------------
   ## get column IDs for further processing
   col_names <- colnames(aliquot)
   col_names <- col_names[grepl("osl_", col_names)]
-  
+
   ## calculate column means (for the variables for interest)
   col_means <- colMeans(aliquot[,col_names])
 
@@ -62,32 +62,32 @@ measure_SAR_OSL_copy <- function(
   var_names <- unique(unlist(regmatches(col_names, regexec(
     "(?<=osl\\_)\\D+"
   , col_names, perl = TRUE))))
-  
+
   ## fetch relevant values from the table and write into new variable
   parameters <- lapply(var_names, function(v){
     col_means[grepl(paste0("osl_", v,"\\d?"), col_names, perl = TRUE)]
-    
+
   })
 
   ## add parameter names to the list
   names(parameters) <- var_names
-  
+
   ## add model information
   parameters <- c(parameters, model = "customized")
-  
+
 
   #---------------------------------------------------------------------------------------------------
   #---------------------------------------------------------------------------------------------------
   #---------------------------------------------------------------------------------------------------
   ##--------------- MODIFICATIONS START --------------------------------------------------------------
- 
+
 
   #---------------------------------------------------------------------------------------------------
   # Discard original steps
   #---------------------------------------------------------------------------------------------------
   # ## calculate mean burial dose
   # burial_dose <- mean(aliquot$osl_doserate * aliquot$age)
-  
+
   # ## update sequence
   # sequence$Irr_2recover <- burial_dose
   #---------------------------------------------------------------------------------------------------
@@ -112,7 +112,7 @@ measure_SAR_OSL_copy <- function(
 
   # for (name in names(parameters)){
   #     own_paramters[[name]] <- unname(unlist(parameters[name]))
-  # } 
+  # }
   # parameters <- own_paramters
   #---------------------------------------------------------------------------------------------------
 
@@ -127,14 +127,14 @@ measure_SAR_OSL_copy <- function(
   ## PART 2 - model luminescence ----------------------------------------------
   osl_model <- RLumModel::model_LuminescenceSignals(
     model = parameters$model,
-    sequence = sequence, 
+    sequence = sequence,
     lab.dose_rate = dose_rate,
     own_parameters = parameters,
     plot = FALSE,
-    verbose = FALSE, 
+    verbose = FALSE,
     simulate_sample_history = TRUE)
 
-  
+
   #Doesn't return osl_model only. Also want to see what parameters were used in [RLumModel::model_LuminescenceSignals()]
   output <- hash()
   output$osl_model <- osl_model
@@ -146,12 +146,12 @@ measure_SAR_OSL_copy <- function(
   return(output)
 }
 
-
+#Hey
 
 prep_parameters_from_aliquot <- function(
   aliquot
 ) {
-  
+
   # First part of [measure_SAR_OSL_copy()]
 
   # Self-call ---------------------------------------------------------------
@@ -160,19 +160,19 @@ prep_parameters_from_aliquot <- function(
 
   # Check incoming ----------------------------------------------------------
   if (is.null(attributes(aliquot)$package) || attributes(aliquot)$package != "sandbox")
-    stop("[prep_parameters_from_aliquot()] the input for aliquot is not an object created by 'sandbox'!", 
+    stop("[prep_parameters_from_aliquot()] the input for aliquot is not an object created by 'sandbox'!",
          call. = FALSE)
-  
+
   if (!is(aliquot, "data.frame"))
-    stop("[prep_parameters_from_aliquot()] the input for aliquot is not of type data.frame!", 
+    stop("[prep_parameters_from_aliquot()] the input for aliquot is not of type data.frame!",
          call. = FALSE)
-  
+
 
   ## PART 1 - separate OSL components -----------------------------------------
   ## get column IDs for further processing
   col_names <- colnames(aliquot)
   col_names <- col_names[grepl("osl_", col_names)]
-  
+
   ## calculate column means (for the variables for interest)
   col_means <- colMeans(aliquot[,col_names])
 
@@ -180,32 +180,32 @@ prep_parameters_from_aliquot <- function(
   var_names <- unique(unlist(regmatches(col_names, regexec(
     "(?<=osl\\_)\\D+"
   , col_names, perl = TRUE))))
-  
+
   ## fetch relevant values from the table and write into new variable
   parameters <- lapply(var_names, function(v){
     col_means[grepl(paste0("osl_", v,"\\d?"), col_names, perl = TRUE)]
-    
+
   })
 
   ## add parameter names to the list
   names(parameters) <- var_names
-  
+
   ## add model information
   parameters <- c(parameters, model = "customized")
-  
+
 
   #---------------------------------------------------------------------------------------------------
   #---------------------------------------------------------------------------------------------------
   #---------------------------------------------------------------------------------------------------
   ##--------------- MODIFICATIONS START --------------------------------------------------------------
- 
+
 
   #---------------------------------------------------------------------------------------------------
   # Discard original steps
   #---------------------------------------------------------------------------------------------------
   # ## calculate mean burial dose
   # burial_dose <- mean(aliquot$osl_doserate * aliquot$age)
-  
+
   # ## update sequence
   # sequence$Irr_2recover <- burial_dose
   #---------------------------------------------------------------------------------------------------
@@ -230,7 +230,7 @@ prep_parameters_from_aliquot <- function(
 
   # for (name in names(parameters)){
   #     own_paramters[[name]] <- unname(unlist(parameters[name]))
-  # } 
+  # }
   # parameters <- own_paramters
   #---------------------------------------------------------------------------------------------------
 
@@ -247,15 +247,15 @@ prep_parameters_from_aliquot <- function(
 
 Make_custom_model_and_retrieve_OSL_TL_metrics <- function(sequence, dose_rate, own_parameters, own_state_parameters) {
 
-  
+
   sandbox_model <- model_LuminescenceSignals(
             model = "customized",
-            sequence = sequence, 
+            sequence = sequence,
             lab.dose_rate = dose_rate,
             own_parameters = own_parameters,
             own_state_parameters = own_state_parameters,#,.set_pars("Bailey2001")$n,
             plot = FALSE,
-            verbose = FALSE, 
+            verbose = FALSE,
             simulate_sample_history = FALSE)
 
 
@@ -285,19 +285,19 @@ Separate_numeric_and_non_numeric_part <- function(parameter_name) {
 
   # Extract the numeric part
   numeric_part <- sub(".*?(\\d+)$", "\\1", parameter)
-  
+
   # Extract the non-numeric part
   non_numeric_part <- sub("(.*?)(\\d+)$", "\\1", parameter)
-  
+
   return(list(non_numeric_part = non_numeric_part, numeric_part = as.numeric(numeric_part)))
 }
 
 Get_param_normal_dist_list_of_values <- function(parameter_name, populations_parameters, n_depth) {
 
   # Equivalent of doing:
-  # par_N1 <- list(list(mean = seq(from = 1.5e+07, to = 1.5e+07, length.out = n_depth), 
+  # par_N1 <- list(list(mean = seq(from = 1.5e+07, to = 1.5e+07, length.out = n_depth),
   #                   sd = seq(from = 0, to = 0, length.out = n_depth)),# Default N1 for pop1
-  #                   list(mean = seq(from = 0, to = 0, length.out = n_depth), 
+  #                   list(mean = seq(from = 0, to = 0, length.out = n_depth),
   #                   sd = seq(from = 0, to = 0, length.out = n_depth)))# No N1 for pop2
 
 
@@ -334,7 +334,7 @@ Update_parameter_in_rulebook <- function(book, parameter_name, depth, population
                     value = par_value,
                     depth = depth)
 
-  return(updated_book)  
+  return(updated_book)
 }
 
 
@@ -347,15 +347,15 @@ set_Rule_for_all_model_parameters <- function(book, depth, populations_parameter
         for (parameter_value in seq(1, length(.set_pars("Bailey2001")[[parameter_name]]))) {
 
             var_names <- append(unlist(var_names), unlist(paste0("osl_", parameter_name, parameter_value)))
-        
+
         }
     }
 
     for (var_name in var_names) {
 
-        book <- Update_parameter_in_rulebook(book = book, 
+        book <- Update_parameter_in_rulebook(book = book,
                                                 parameter_name = var_name,
-                                                depth = depth, 
+                                                depth = depth,
                                                 populations_parameters = populations_parameters)
 
     }
@@ -365,8 +365,8 @@ set_Rule_for_all_model_parameters <- function(book, depth, populations_parameter
 
 Perform_CTS_3_sources <- function(tracer_pair, mgeo, sgeo, crgeo, error_threshold = NULL, score_threshold = NULL, nb_tracers = NULL) {
 
-  
-    
+
+
 
   # Check if the number of tracers is NULL
   if ((is.null(nb_tracers)) & (!is.null(error_threshold)) & (!is.null(score_threshold))) {
@@ -376,7 +376,7 @@ Perform_CTS_3_sources <- function(tracer_pair, mgeo, sgeo, crgeo, error_threshol
     ctsgeo <- ctsgeo %>% right_join(crgeo, by = c("tracer"))
     complete_ctsgeo <- ctsgeo
     ctsgeo <- ctsgeo[ctsgeo$err <= error_threshold & ctsgeo$score >= score_threshold,]
-    
+
 
   } else if ((!is.null(nb_tracers)) & (is.null(error_threshold)) & (!is.null(score_threshold))) {
 
@@ -387,7 +387,7 @@ Perform_CTS_3_sources <- function(tracer_pair, mgeo, sgeo, crgeo, error_threshol
     ctsgeo <- ctsgeo[ctsgeo$score >= score_threshold,]
     ctsgeo <- ctsgeo[order(ctsgeo$err),]
     ctsgeo <- ctsgeo[1:nb_tracers, ]
-    
+
 
   } else {
 
@@ -436,7 +436,7 @@ Prepare_data_for_tracer_selection <- function(data_path) {
 
     # groupby "sources" and keep mean value
     Population_fraction <- Population_fraction %>% group_by(sources) %>% summarise(Pop_fraction = mean(Pop_fraction))
-    
+
   } else {
     Population_fraction <- NULL
   }
@@ -463,8 +463,8 @@ Select_unmixing_tracers_2_sources <- function(mgeo, sgeo, crgeo, score_threshold
   ## Order by score and filter by score_threshold
   ordered_crgeo <- crgeo[order(-crgeo$score),]
   ordered_crgeo <- ordered_crgeo[ordered_crgeo$score > score_threshold, ]
-  
-    
+
+
 
   ## Select tracers based on score and nb_tracers
   if ((!is.null(nb_tracers)) &  (!is.null(score_threshold))) {
@@ -474,12 +474,12 @@ Select_unmixing_tracers_2_sources <- function(mgeo, sgeo, crgeo, score_threshold
 
 
   } else if ((is.null(nb_tracers)) & (is.null(score_threshold))) {
-      
+
         print("Provide at least 'score_threshold'")
-  
+
   ## Select tracers solely based on score
   } else if ((is.null(nb_tracers)) & (!is.null(score_threshold))) {
-    
+
       ordered_crgeo <- ordered_crgeo
 
   } else {
@@ -501,7 +501,7 @@ Select_unmixing_tracers_2_sources <- function(mgeo, sgeo, crgeo, score_threshold
 }
 
 
- 
+
 
 Select_data_for_unmixing <- function(sgeo, mgeo, unmixing_tracers) {
 
@@ -536,11 +536,11 @@ Make_luminescence_rulebook <- function(populations_parameters, pop_ratios) {
 
   ## getemptyrulebook
   # The following add rules for age, population, grainsize, packing and density
-  # In addition, also adds the 7 parameters of Bailey2001 to the rule book 
+  # In addition, also adds the 7 parameters of Bailey2001 to the rule book
   # -> (N, E, s, A B, Th, E_th) preceded by "osl_". (1-9 for N, E, s, A B and 1-5 for Th, E_th)
   # Also adds osl_doserate and osl_R
   book_osl<-get_RuleBook(book="empty",
-                      osl="Bailey2001") 
+                      osl="Bailey2001")
 
   ## add another populations
   book_osl <- add_Population(book = book_osl,
@@ -561,7 +561,7 @@ Make_luminescence_rulebook <- function(populations_parameters, pop_ratios) {
 
   #                     list(mean=rep(2.5,n_depth),
   #                     sd=rep(0.05,n_depth)),
-                      
+
   #                     list(mean=rep(2.5,n_depth),
   #                     sd=rep(0.05,n_depth)))
 
@@ -574,7 +574,7 @@ Make_luminescence_rulebook <- function(populations_parameters, pop_ratios) {
   for (i in 1:nb_populations) {
       population_proportion_fill[[i]] <- list(rep(pop_ratios[i], n_depth))
   }
-  
+
 
     ## addpopulationcontributionwithdepth
     book_osl<-set_Rule(book=book_osl,
@@ -600,12 +600,12 @@ Make_luminescence_rulebook <- function(populations_parameters, pop_ratios) {
     # set_Rule() for all 7 model parameters. Mean is based on original populations_parameters
     # and sd = 0. The same mean is given to all depth. Function [Get_param_normal_dist_list_of_values()] shoulde be
     # modified/replaced to give different values for each depth.
-    book_osl <- set_Rule_for_all_model_parameters(book = book_osl, 
-                                                depth = depth_true, 
+    book_osl <- set_Rule_for_all_model_parameters(book = book_osl,
+                                                depth = depth_true,
                                                 populations_parameters = populations_parameters)
-    
 
-    
+
+
 
     book_osl<-set_Rule(book=book_osl,
                     parameter="grainsize",
@@ -621,7 +621,7 @@ Make_luminescence_rulebook <- function(populations_parameters, pop_ratios) {
 Compute_mean_median_proportions_differences <- function(source_list, Population_fraction, proportions, filename, tracer_pair = NULL) {
 
   ############################################################
-  # If the expected population fraction is available, 
+  # If the expected population fraction is available,
   # this function computes the differences between the mean/median
   # and the expected population fractions
   ############################################################
@@ -635,7 +635,7 @@ Compute_mean_median_proportions_differences <- function(source_list, Population_
     # proportions <- cbind(proportions, Population_fraction[Population_fraction$sources != "Mixed", "Pop_fraction"])
     # Fill last 3 rows (S1, S2, S3) with fraction
     proportions$Expected_population_fraction[(nrow(proportions)-length(source_list)+1):nrow(proportions)] <- unlist(Population_fraction[Population_fraction$sources != "Mixed", "Pop_fraction"])
-    
+
     temp_proportions <- proportions[(nrow(proportions)-length(source_list)+1):nrow(proportions), ]
 
     # Compute the differences between the expected population fraction and the mean and median of the proportions
@@ -685,7 +685,7 @@ Plot_sources_proportions <- function(result_FP_long, filename, data_sol, Populat
   }
 
   # Create boxplot
-  boxplot(value ~ variable, data = result_FP_long, 
+  boxplot(value ~ variable, data = result_FP_long,
           main = title,
           xlab = "Variable", ylab = "Value", col = "lightgray", ylim = c(-0.1, 1.1))
 
@@ -705,7 +705,7 @@ Plot_unmixing_proportions_and_get_results <- function(data_sol, source_list, Pop
 
   proportions <- data.frame()
   ratio_differences <- data.frame()
-  
+
   # Let's unmix the multiple solutions
   result_FP <- unmix(data_sol, Means = T)#samples = 200, iter = 200,
 
@@ -717,9 +717,9 @@ Plot_unmixing_proportions_and_get_results <- function(data_sol, source_list, Pop
 
 
   # ## Group result_FP_long by "variable" and compute the mean and median of "value"
-  # proportions <- result_FP_long %>% 
-  #                 group_by(variable) %>% 
-  #                 summarise(mean = mean(value), 
+  # proportions <- result_FP_long %>%
+  #                 group_by(variable) %>%
+  #                 summarise(mean = mean(value),
   #                           median = median(value),
   #                           sd = sd(value),
   #                           n = n()) %>%
@@ -729,9 +729,9 @@ Plot_unmixing_proportions_and_get_results <- function(data_sol, source_list, Pop
 
   ## CI for proportion https://www.statology.org/confidence-interval-proportion/
   z_value<- 1.96# for 95% confidence interval/ 1.645 for 90% confidence interval / 2.58 for 99% confidence interval
-  proportions_current <- result_FP_long %>% 
-                  group_by(variable) %>% 
-                  summarise(mean = mean(value), 
+  proportions_current <- result_FP_long %>%
+                  group_by(variable) %>%
+                  summarise(mean = mean(value),
                             median = median(value),
                             sd = sd(value),
                             n = n(),
@@ -739,7 +739,7 @@ Plot_unmixing_proportions_and_get_results <- function(data_sol, source_list, Pop
                             Q75 = unname(quantile(value, .75))) %>%
                   mutate(lower.ci = mean - z_value * sqrt(mean * (1 - mean) / n),
                           upper.ci = mean + z_value * sqrt(mean * (1 - mean) / n))
- 
+
   # add filename as first column of proportions
   if (!is.null(tracer_pair)) {
     proportions_current <- cbind(tracer_pair = tracer_pair, proportions_current)
@@ -747,24 +747,24 @@ Plot_unmixing_proportions_and_get_results <- function(data_sol, source_list, Pop
   proportions_current <- cbind(filename = filename, proportions_current)
 
   if (is.null(error_threshold)) {
-    proportions_current <- cbind(proportions_current, 
-                              error_threshold = rep(NaN, length(source_list)), 
-                              score_threshold = rep(score_threshold, length(source_list)), 
+    proportions_current <- cbind(proportions_current,
+                              error_threshold = rep(NaN, length(source_list)),
+                              score_threshold = rep(score_threshold, length(source_list)),
                               nb_tracer = rep(nb_tracer, length(source_list)))
 
     } else if (is.null(nb_tracer)) {
-      proportions_current <- cbind(proportions_current, 
-                              error_threshold = rep(error_threshold, length(source_list)), 
-                              score_threshold = rep(score_threshold, length(source_list)), 
+      proportions_current <- cbind(proportions_current,
+                              error_threshold = rep(error_threshold, length(source_list)),
+                              score_threshold = rep(score_threshold, length(source_list)),
                               nb_tracer = rep(NaN, length(source_list)))
-       
+
     } else {
       print("ERROR in [Plot_unmixing_proportions_and_get_results()]")
       stop()
     }
-  
+
   # add new empty column
-  
+
   # proportions_current$Expected_population_fraction <- rep(NaN, length(source_list))
   proportions_current[-length(source_list):-1, "Expected_population_fraction"] <- rep(NaN, length(source_list))
   # proportions <- rbind(proportions, proportions_current)
@@ -786,7 +786,7 @@ Plot_unmixing_proportions_and_get_results <- function(data_sol, source_list, Pop
 Get_metrics_for_proprotions_selection <- function(metrics, filename, tracer_pair, ctsgeo, source_list, ratio_differences, proportions, error_threshold, score_threshold, nb_tracer) {
 
 
-    
+
     ## Add tracer_pair, tracers, Manhattan_dist_median, Manhattan_dist_mean, filename, CI width to metrics
     # Rename col "id" to "filename"
     colnames(metrics)[colnames(metrics) == "id"] <- "filename"
@@ -798,13 +798,13 @@ Get_metrics_for_proprotions_selection <- function(metrics, filename, tracer_pair
       metrics <- cbind(metrics, tracer_pair = NaN)
     }
     # metrics <- cbind(metrics, tracer_pair = tracer_pair)
-    
+
     metrics <- cbind(metrics, tracers = paste0(ctsgeo$tracer, collapse = "-"))
-    
+
 
     if (is.null(error_threshold)) {
         error_threshold <- NaN
-    } 
+    }
     if (is.null(score_threshold)) {
         score_threshold <- NaN
     }
@@ -816,7 +816,7 @@ Get_metrics_for_proprotions_selection <- function(metrics, filename, tracer_pair
     metrics <- cbind(metrics, error_threshold = error_threshold)
     metrics <- cbind(metrics, score_threshold = score_threshold)
     metrics <- cbind(metrics, nb_tracer = nb_tracer)
- 
+
 
     ## Add width of confidence interval
     for (source in source_list) {
@@ -824,7 +824,7 @@ Get_metrics_for_proprotions_selection <- function(metrics, filename, tracer_pair
     }
     # Add sum of witdth of confidence interval
     metrics <- cbind(metrics, CI_width_sum = rowSums(metrics[, grep("_CI_width", names(metrics))]))
-  
+
 
     if (nrow(ratio_differences) > 0){
 
@@ -850,9 +850,9 @@ Complete_unmixing_routine <- function(mgeo, sgeo, crgeo, source_list, Population
 
   if (is.null(tracer_pair)) {
 
-    output <- Select_unmixing_tracers_2_sources(sgeo = sgeo, 
-                                                mgeo = mgeo, 
-                                                crgeo = crgeo, 
+    output <- Select_unmixing_tracers_2_sources(sgeo = sgeo,
+                                                mgeo = mgeo,
+                                                crgeo = crgeo,
                                                 score_threshold = score_threshold,
                                                 nb_tracers = nb_tracer)
     ctsgeo <- output$ctsgeo
@@ -862,16 +862,16 @@ Complete_unmixing_routine <- function(mgeo, sgeo, crgeo, source_list, Population
     nb_tracer <- output$nb_tracer
 
   } else if (!is.null(tracer_pair)) {
-     
-  
+
+
     output <- Perform_CTS_3_sources(tracer_pair = tracer_pair,
-                              mgeo = mgeo, 
-                              sgeo = sgeo, 
-                              crgeo = crgeo, 
+                              mgeo = mgeo,
+                              sgeo = sgeo,
+                              crgeo = crgeo,
                               error_threshold = error_threshold,
                               score_threshold = score_threshold,
                               nb_tracer = nb_tracer)
-      
+
       ctsgeo <- output$ctsgeo
       tracer_pair <- output$tracer_pair
       error_threshold <- output$error_threshold
@@ -884,7 +884,7 @@ Complete_unmixing_routine <- function(mgeo, sgeo, crgeo, source_list, Population
 
 
 
-    
+
     if (nrow(ctsgeo) == 0) {
 
       print("No tracers in function [Complete_unmixing_routine()]")
@@ -892,38 +892,38 @@ Complete_unmixing_routine <- function(mgeo, sgeo, crgeo, source_list, Population
       return(list(metrics = NULL, proportions = NULL, ratio_differences = NULL))
 
     } else if ((nrow(ctsgeo) >= 1) & (is.null(tracer_pair))) {
-      
-        data_sol <- Select_data_for_unmixing(sgeo = sgeo, 
-                                        mgeo = mgeo, 
+
+        data_sol <- Select_data_for_unmixing(sgeo = sgeo,
+                                        mgeo = mgeo,
                                         unmixing_tracers = ctsgeo$tracer)
 
-        output <- Plot_unmixing_proportions_and_get_results(data_sol, 
-                                                            source_list, 
-                                                            Population_fraction, 
+        output <- Plot_unmixing_proportions_and_get_results(data_sol,
+                                                            source_list,
+                                                            Population_fraction,
                                                             filename,
                                                             error_threshold,
                                                             score_threshold,
-                                                            nb_tracer, 
+                                                            nb_tracer,
                                                             tracer_pair)
         proportions <- output$proportions
         ratio_differences <- output$ratio_differences
         metrics <- do.call(data.frame, aggregate(. ~ id, data = output$unmixing_results, function(x) c(mean = mean(x), SD = sd(x))))
         metrics <- Get_metrics_for_proprotions_selection(metrics, filename, tracer_pair, ctsgeo, source_list, ratio_differences, proportions, error_threshold, score_threshold, nb_tracer)
-        
+
     } else if ((nrow(ctsgeo) > 1) & (!is.null(tracer_pair))) {
 
 
-        data_sol <- Select_data_for_unmixing(sgeo = sgeo, 
-                                        mgeo = mgeo, 
+        data_sol <- Select_data_for_unmixing(sgeo = sgeo,
+                                        mgeo = mgeo,
                                         unmixing_tracers = ctsgeo$tracer)
 
-        output <- Plot_unmixing_proportions_and_get_results(data_sol, 
-                                                            source_list, 
-                                                            Population_fraction, 
+        output <- Plot_unmixing_proportions_and_get_results(data_sol,
+                                                            source_list,
+                                                            Population_fraction,
                                                             filename,
                                                             error_threshold,
                                                             score_threshold,
-                                                            nb_tracer, 
+                                                            nb_tracer,
                                                             tracer_pair)
         proportions <- output$proportions
         ratio_differences <- output$ratio_differences
@@ -932,7 +932,7 @@ Complete_unmixing_routine <- function(mgeo, sgeo, crgeo, source_list, Population
 
 
     } else {
-      
+
         print(ctsgeo)
         print("ERROR in [Complete_unmixing_routine()]")
         stop()
@@ -966,8 +966,8 @@ Get_sequence <- function(file_path, lab_dose_rate) {
     # If path ends with .SEQ
     if (grepl(".SEQ$", file_path)) {
 
-    sequence <- read_SEQ2R(file = file_path, 
-                                    lab.dose_rate = lab_dose_rate, 
+    sequence <- read_SEQ2R(file = file_path,
+                                    lab.dose_rate = lab_dose_rate,
                                     txtProgressBar = FALSE)
 
     } else if (grepl(".RData", file_path)) {
@@ -992,7 +992,7 @@ OSL_metrics_hash_to_dataframe <- function(OSL_hash, record_num) {
 
     df <- data.frame(row.names = record_num)
     Nb_components <- OSL_hash$Nb_components
-    
+
     df[['Nb_components']] <- Nb_components
 
     for (key in setdiff(names(OSL_hash), c("Nb_components"))) {
@@ -1009,29 +1009,29 @@ get_user_number_of_sequence_steps_input <- function() {
 
   # Create a new tcltk window
   tt <- tktoplevel()
-  
+
   # Set the title of the window
   tkwm.title(tt, "Sequence creater")
-  
+
   # Create a variable to store the user input
   user_input <- tclVar("")
-  
+
   # Create an entry widget for user input
   entry <- tkentry(tt, textvariable = user_input)
-  
+
   # Create a submit button
   submit <- function() {
     tkdestroy(tt)
   }
   submit_button <- tkbutton(tt, text = "Submit", command = submit)
-  
+
   # Arrange the widgets in the window
   tkgrid(tklabel(tt, text = "Enter number of steps in the sequence:"), entry)
   tkgrid(submit_button)
-  
+
   # Wait for the user to submit the input
   tkwait.window(tt)
-  
+
   # Return the user input
   return(as.numeric(tclvalue(user_input)))
 }
@@ -1039,29 +1039,29 @@ get_user_number_of_sequence_steps_input <- function() {
 get_user_sequence_step_input <- function(i) {
   # Create a new tcltk window
   tt <- tktoplevel()
-  
+
   # Set the title of the window
   tkwm.title(tt, "Sequence creater")
-  
+
   # Create a variable to store the user input
   user_input <- tclVar("")
-  
+
   # Create an entry widget for user input
   entry <- tkentry(tt, textvariable = user_input)
-  
+
   # Create a submit button
   submit <- function() {
     tkdestroy(tt)
   }
   submit_button <- tkbutton(tt, text = "Submit", command = submit)
-  
+
   # Arrange the widgets in the window
   tkgrid(tklabel(tt, text = glue("Enter sequence step {i}:\nPH, IRR, OSL or TL")), entry)
   tkgrid(submit_button)
-  
+
   # Wait for the user to submit the input
   tkwait.window(tt)
-  
+
   # Return the user input
   return(as.character(tclvalue(user_input)))
 }
@@ -1069,20 +1069,20 @@ get_user_sequence_step_input <- function(i) {
 get_PH_user_inputs <- function() {
   # Create a new tcltk window
   tt <- tktoplevel()
-  
+
   # Set the title of the window
   tkwm.title(tt, "Preheat (PH)")
-  
+
   # Create variables to store the user inputs
   temp <- tclVar("")
   duration <- tclVar("")
   heating_rate <- tclVar("")
-  
+
   # Create entry widgets for user inputs
   temp_entry <- tkentry(tt, textvariable = temp)
   duration_entry <- tkentry(tt, textvariable = duration)
   heating_rate_entry <- tkentry(tt, textvariable = heating_rate)
-  
+
   # Create a submit button
   submit <- function() {
     tkdestroy(tt)
@@ -1093,7 +1093,7 @@ get_PH_user_inputs <- function() {
   tkgrid(tklabel(tt, text = "Enter pre-heat duration (s):"), duration_entry)
   tkgrid(tklabel(tt, text = "Enter pre-heat heating rate (ºC)/s or 'NaN':"), heating_rate_entry)
   tkgrid(submit_button)
-  
+
   # Wait for the user to submit the inputs
   tkwait.window(tt)
 
@@ -1106,7 +1106,7 @@ get_PH_user_inputs <- function() {
     heating_rate <- as.numeric(tclvalue(heating_rate))
   }
 
-  
+
   # Return the user inputs as a list
   # return(list(temp = temp, duration = duration, heating_rate = heating_rate))
   return(c(temp, duration, heating_rate))
@@ -1115,22 +1115,22 @@ get_PH_user_inputs <- function() {
 get_IRR_user_inputs <- function() {
   # Create a new tcltk window
   tt <- tktoplevel()
-  
+
   # Set the title of the window
   tkwm.title(tt, "Irradiation (IRR)")
-  
+
   # Create variables to store the user inputs
   temp <- tclVar("")
   dose <- tclVar("")
   dose_rate <- tclVar("")
   time <- tclVar("")
-  
+
   # Create entry widgets for user inputs
   temp_entry <- tkentry(tt, textvariable = temp)
   dose_entry <- tkentry(tt, textvariable = dose)
   dose_rate_entry <- tkentry(tt, textvariable = dose_rate)
   time_entry <- tkentry(tt, textvariable = time)
-  
+
   # Create a submit button
   submit <- function() {
     tkdestroy(tt)
@@ -1142,7 +1142,7 @@ get_IRR_user_inputs <- function() {
   tkgrid(tklabel(tt, text = "Enter irradiation dose rate (Gy/s) or 'NaN':"), dose_rate_entry)
   tkgrid(tklabel(tt, text = "Enter irradiation time (s) or 'NaN':"), time_entry)
   tkgrid(submit_button)
-  
+
   # Wait for the user to submit the inputs
   tkwait.window(tt)
 
@@ -1171,20 +1171,20 @@ get_TL_user_inputs <- function() {
 
   # Create a new tcltk window
   tt <- tktoplevel()
-  
+
   # Set the title of the window
   tkwm.title(tt, "Thermally stimulated luminescence (TL)")
-  
+
   # Create variables to store the user inputs
   temp <- tclVar("")
   duration <- tclVar("")
   heating_rate <- tclVar("")
-  
+
   # Create entry widgets for user inputs
   temp_entry <- tkentry(tt, textvariable = temp)
   duration_entry <- tkentry(tt, textvariable = duration)
   heating_rate_entry <- tkentry(tt, textvariable = heating_rate)
-  
+
   # Create a submit button
   submit <- function() {
     tkdestroy(tt)
@@ -1195,34 +1195,34 @@ get_TL_user_inputs <- function() {
   tkgrid(tklabel(tt, text = "Enter TL end temperature (ºC):"), duration_entry)
   tkgrid(tklabel(tt, text = "Enter TL heating rate (ºC)/s:"), heating_rate_entry)
   tkgrid(submit_button)
-  
+
   # Wait for the user to submit the inputs
   tkwait.window(tt)
-  
+
   # Return the user inputs as a list
   # return(list(begin_temp = as.numeric(tclvalue(temp)), end_temp = as.numeric(tclvalue(duration)), heating_rate = as.numeric(tclvalue(heating_rate))))
   return(c(as.numeric(tclvalue(temp)), as.numeric(tclvalue(duration)), as.numeric(tclvalue(heating_rate))))
-  
+
 }
 
 get_OSL_user_inputs <- function() {
 
   # Create a new tcltk window
   tt <- tktoplevel()
-  
+
   # Set the title of the window
   tkwm.title(tt, "Optically stimulated luminescence (OSL)")
-  
+
   # Create variables to store the user inputs
   temp <- tclVar("")
   duration <- tclVar("")
   heating_rate <- tclVar("")
-  
+
   # Create entry widgets for user inputs
   temp_entry <- tkentry(tt, textvariable = temp)
   duration_entry <- tkentry(tt, textvariable = duration)
   heating_rate_entry <- tkentry(tt, textvariable = heating_rate)
-  
+
   # Create a submit button
   submit <- function() {
     tkdestroy(tt)
@@ -1233,18 +1233,18 @@ get_OSL_user_inputs <- function() {
   tkgrid(tklabel(tt, text = "Enter OSL duration (s):"), duration_entry)
   tkgrid(tklabel(tt, text = "Enter OSL optical power (%):"), heating_rate_entry)
   tkgrid(submit_button)
-  
+
   # Wait for the user to submit the inputs
   tkwait.window(tt)
-  
+
   # Return the user inputs as a list
-  # return(list(temp = as.numeric(tclvalue(temp)), 
-  #             duration = as.numeric(tclvalue(duration)), 
+  # return(list(temp = as.numeric(tclvalue(temp)),
+  #             duration = as.numeric(tclvalue(duration)),
   #             optical_power = as.numeric(tclvalue(heating_rate))))
-  return(c(as.numeric(tclvalue(temp)), 
-            as.numeric(tclvalue(duration)), 
+  return(c(as.numeric(tclvalue(temp)),
+            as.numeric(tclvalue(duration)),
             as.numeric(tclvalue(heating_rate))))
-  
+
 }
 
 Create_sequence_manually <- function() {
@@ -1375,7 +1375,7 @@ Compute_OSL_metrics <- function(sequence, data) {
 
     for (record_num in 1:nb_OSL_records) {
 
-      
+
 
       ## TODO: AUTOMATE IRR_DOSE
       # IRR_dose <- SEQ_sequence_renamed[[paste0("IRR_", 1)]][2] - not always the correct one
@@ -1384,11 +1384,11 @@ Compute_OSL_metrics <- function(sequence, data) {
       if (is.na(output$nb_components)) {
             OSL_hash[[paste0("Record_",record_num)]][["Nb_components"]] <- NaN
         } else {
-  
+
           OSL_hash[[paste0("Record_",record_num)]][["Nb_components"]] <- output$nb_components
 
       for (component_num in 1:output$nb_components) {
-          
+
           OSL_hash[[paste0("Record_", record_num)]][["Cross_section"]][[paste0("Component_", component_num)]] <- output$cs_df[,paste0("cs", component_num)]
           OSL_hash[[paste0("Record_", record_num)]][["Cross_section_relative"]][[paste0("Component_", component_num)]] <- output$cs_df[, paste0("cs", component_num, ".rel")]
           OSL_hash[[paste0("Record_", record_num)]][["Intensity"]][[paste0("Component_", component_num)]] <- output$I0_df[, paste0("I0", component_num)]
@@ -1434,10 +1434,10 @@ TL_metrics_hash_to_dataframe <- function(TL_hash, record_num) {
 }
 
 Single_record_TL_OSL_metrics_df <- function(TL_hash, OSL_hash, record_num) {
-  
 
-  if ((record_num %in% keys(TL_hash)) & 
-      (record_num %in% keys(OSL_hash))) { 
+
+  if ((record_num %in% keys(TL_hash)) &
+      (record_num %in% keys(OSL_hash))) {
 
       single_record_TL_metrics <- TL_metrics_hash_to_dataframe(TL_hash, record_num)
       single_record_OSL_metrics <- OSL_metrics_hash_to_dataframe(OSL_hash, record_num)
@@ -1449,7 +1449,7 @@ Single_record_TL_OSL_metrics_df <- function(TL_hash, OSL_hash, record_num) {
         output <- single_record_OSL_metrics
       }
 
-  } else if ((record_num %in% keys(TL_hash)) & 
+  } else if ((record_num %in% keys(TL_hash)) &
               !(record_num %in% keys(OSL_hash))) {
 
       single_record_TL_metrics <- TL_metrics_hash_to_dataframe(TL_hash, record_num)
@@ -1462,11 +1462,11 @@ Single_record_TL_OSL_metrics_df <- function(TL_hash, OSL_hash, record_num) {
       }
 
       output <- single_record_TL_metrics
-     
 
-  } else if (!(record_num %in% keys(TL_hash)) & 
+
+  } else if (!(record_num %in% keys(TL_hash)) &
               (record_num %in% keys(OSL_hash))) {
-     
+
       single_record_OSL_metrics <- OSL_metrics_hash_to_dataframe(OSL_hash, record_num)
       output <- single_record_OSL_metrics
 
@@ -1474,7 +1474,7 @@ Single_record_TL_OSL_metrics_df <- function(TL_hash, OSL_hash, record_num) {
     print("ERROR in [Single_record_TL_OSL_metrics_df()] - extra conditions should be added")
   }
 
-  
+
 
   # Add "Record_x" to every column name
   colnames(output) <- paste0(record_num, "_", colnames(output))
@@ -1491,7 +1491,7 @@ Extract_OSL_TL_metrics_for_all_records <- function(TL_hash, OSL_hash, source_num
     metrics <- data.frame(matrix(NA, nrow = 1, ncol = 0))
     for (record_num in records_to_extract_data_from) {
         metrics_temp <- Single_record_TL_OSL_metrics_df(TL_hash = TL_hash, OSL_hash = OSL_hash, record_num = record_num)
-        
+
         if (!is.null(metrics_temp)){
           metrics <- cbind(metrics, metrics_temp)
         }
@@ -1499,7 +1499,7 @@ Extract_OSL_TL_metrics_for_all_records <- function(TL_hash, OSL_hash, source_num
 
 
     metrics <- cbind("sources" = rep(source_number, nrow(metrics)), metrics)
-    
+
     return(metrics)
 }
 
@@ -1562,9 +1562,9 @@ Add_last_datapoint_for_potential_peak <- function(last_datapoint, last_local_max
   forced_additional_peak <- peaks$forced_additional_peak
 
   if (length(peaks_temp) > 0) {
-    
-    if ((last_local_min$Temperature < last_datapoint$Temperature) && 
-      (last_local_max$Temperature < last_local_min$Temperature) && 
+
+    if ((last_local_min$Temperature < last_datapoint$Temperature) &&
+      (last_local_max$Temperature < last_local_min$Temperature) &&
       (last_datapoint$Intensity > last_local_min$Intensity)) {
 
           peaks_temp <- c(peaks_temp, last_datapoint$Temperature)
@@ -1579,7 +1579,7 @@ Add_last_datapoint_for_potential_peak <- function(last_datapoint, last_local_max
       }
 }
 
-  
+
   return(list(peaks_temp = peaks_temp, peaks_intensity = peaks_intensity, nb_peaks = length(peaks_temp), forced_additional_peak = forced_additional_peak))
 }
 
@@ -1593,10 +1593,10 @@ Get_initial_peaks <- function(df, span) {
   peaks$nb_peaks <- length(peaks$peaks_temp)
   peaks$forced_additional_peak <- FALSE
 
-    
-  output <- Add_last_datapoint_for_potential_peak(last_datapoint = tail(df,v1), 
-                                                        last_local_max = tail(df[local_min_max$maxima,], 1), 
-                                                        last_local_min = tail(df[local_min_max$minima,], 1), 
+
+  output <- Add_last_datapoint_for_potential_peak(last_datapoint = tail(df,v1),
+                                                        last_local_max = tail(df[local_min_max$maxima,], 1),
+                                                        last_local_min = tail(df[local_min_max$minima,], 1),
                                                         peaks)
 
   return(list(peaks_temp = output$peaks_temp, peaks_intensity = output$peaks_intensity, nb_peaks = output$nb_peaks, forced_additional_peak = output$forced_additional_peak))
@@ -1604,10 +1604,10 @@ Get_initial_peaks <- function(df, span) {
 }
 
 Get_initial_peaks_valleys <- function(df, span) {
-  
+
   local_min_max <- inflect(df[, "Intensity"], threshold = span)
 
-  
+
   maxima <- df[local_min_max$maxima,]
   minima <- df[local_min_max$minima,]
 
@@ -1638,7 +1638,7 @@ Get_initial_peaks_valleys <- function(df, span) {
   colnames(local_extrema) <- c("Temperature", "Intensity", "source")
 
   local_extrema <- local_extrema[order(local_extrema$Temperature),]
- 
+
 
   return(local_extrema)
 
@@ -1680,7 +1680,7 @@ Average_neighbouring_points_filtering <- function(peaks, df, smoothing_data, nei
   peaks_intensity <- peaks$peaks_intensity
 
   # Create empty df to store the results
-  peaks_neighbour_intensity_avg <- data.frame(Temperature = numeric(), 
+  peaks_neighbour_intensity_avg <- data.frame(Temperature = numeric(),
                                                 Neighbours_avg_intensity = numeric())
 
   for (i in seq_along(peaks_temp)){
@@ -1688,12 +1688,12 @@ Average_neighbouring_points_filtering <- function(peaks, df, smoothing_data, nei
     peak_temp <- peaks_temp[i]
     peak_intensity <- peaks_intensity[i]
 
-    window_data <- data[data$Temperature <= peak_temp + neighbour_temp_window_size/2 & 
+    window_data <- data[data$Temperature <= peak_temp + neighbour_temp_window_size/2 &
                       data$Temperature >= peak_temp - neighbour_temp_window_size/2,]
 
-    peaks_neighbour_intensity_avg <- rbind(peaks_neighbour_intensity_avg, 
-                                      data.frame(Temperature = peak_temp, 
-                                      Intensity = peak_intensity, 
+    peaks_neighbour_intensity_avg <- rbind(peaks_neighbour_intensity_avg,
+                                      data.frame(Temperature = peak_temp,
+                                      Intensity = peak_intensity,
                                       Intensity_avg = mean(window_data$Intensity)))
   }
 
@@ -1706,11 +1706,11 @@ Average_neighbouring_points_filtering <- function(peaks, df, smoothing_data, nei
 
   return(peaks)
 
-  
+
 }
 
 Compute_intensity_std_moving_window <- function(local_extrema, df, std_computation_window_size_degrees) {
-  
+
   local_extrema <- local_extrema[local_extrema$source == "Max",]
   local_extrema <- local_extrema[,c("Temperature", "Intensity")]
   df$Intensity_norm <- (df$Intensity - min(df$Intensity)) / (max(df$Intensity) - min(df$Intensity))
@@ -1720,13 +1720,13 @@ Compute_intensity_std_moving_window <- function(local_extrema, df, std_computati
 
   for (extrema_temp in local_extrema$Temperature){
 
-    window_data <- df[df$Temperature <= extrema_temp + std_computation_window_size_degrees/2 & 
+    window_data <- df[df$Temperature <= extrema_temp + std_computation_window_size_degrees/2 &
                       df$Temperature >= extrema_temp - std_computation_window_size_degrees/2,]
 
-    std_results <- rbind(std_results, data.frame(Temperature = extrema_temp, Intensity_std = std(window_data$Intensity), 
+    std_results <- rbind(std_results, data.frame(Temperature = extrema_temp, Intensity_std = std(window_data$Intensity),
                           Intensity_std_norm = std(window_data$Intensity_norm)))
   }
-  
+
   return(std_results)
 
 }
@@ -1738,8 +1738,8 @@ Filter_peaks_using_std <- function(local_extrema, peaks, df, std_computation_win
   }
 
   else {
-    moving_window_local_extrema <- data.frame(Temperature = peaks$peaks_temp, 
-                                              Intensity = peaks$peaks_intensity, 
+    moving_window_local_extrema <- data.frame(Temperature = peaks$peaks_temp,
+                                              Intensity = peaks$peaks_intensity,
                                               source = rep("Max", length(peaks$peaks_temp)))
   }
 
@@ -1764,21 +1764,21 @@ Filter_peaks_using_std <- function(local_extrema, peaks, df, std_computation_win
 
 }
 
-Keep_relevant_peaks <- function(local_extrema, df, smoothing_data, 
-                                min_max_intensity_threshold = 20, 
-                                std_computation_window_size_degrees = 75, 
+Keep_relevant_peaks <- function(local_extrema, df, smoothing_data,
+                                min_max_intensity_threshold = 20,
+                                std_computation_window_size_degrees = 75,
                                 std_threshold = 0) {
 
   peaks <- hash()
   results <- hash()
 
   # Consecutive min/max should have a difference of at least 20
-  results$peaks <- Consecutive_min_max_intensity_threshold_check(local_extrema, 
-                                                        peaks, 
+  results$peaks <- Consecutive_min_max_intensity_threshold_check(local_extrema,
+                                                        peaks,
                                                         min_max_intensity_threshold = min_max_intensity_threshold)
 
-  
-  results$peaks <- Average_neighbouring_points_filtering(results$peaks, df, smoothing_data, 
+
+  results$peaks <- Average_neighbouring_points_filtering(results$peaks, df, smoothing_data,
                                                           neighbour_temp_window_size = 20)
 
   # results <- Filter_peaks_using_std(local_extrema, results$peaks, df, std_computation_window_size_degrees, std_threshold)
@@ -1789,14 +1789,14 @@ Keep_relevant_peaks <- function(local_extrema, df, smoothing_data,
 }
 
 Plot_smoothing <- function(df, smoothing_results, record_num) {
-  TEMPERATURE_CONVERSION_CONSTANT <- 273.15 
+  TEMPERATURE_CONVERSION_CONSTANT <- 273.15
 
     # Plot with y-axis log scale
-  plot(df$Temperature - TEMPERATURE_CONVERSION_CONSTANT, df$Intensity, 
-      xlab = "Temperature (°C)", 
-      ylab = "Intensity", 
-      col = "black", 
-      main = glue("Record {record_num}"), 
+  plot(df$Temperature - TEMPERATURE_CONVERSION_CONSTANT, df$Intensity,
+      xlab = "Temperature (°C)",
+      ylab = "Intensity",
+      col = "black",
+      main = glue("Record {record_num}"),
       log = "y")
 
   # Add the smoothed line
@@ -1827,22 +1827,22 @@ TL_curve_smoothing <- function(df, record_num, lambda) {
 
 Plot_TL_Curve <- function(model_output, peaks, record_num) {
 
-  TEMPERATURE_CONVERSION_CONSTANT <- 273.15 
+  TEMPERATURE_CONVERSION_CONSTANT <- 273.15
 
-  plot_RLum(object = model_output, 
-            main = paste("Record", record_num, " - TL curve with", peaks$nb_peaks, 
+  plot_RLum(object = model_output,
+            main = paste("Record", record_num, " - TL curve with", peaks$nb_peaks,
             "peaks - FORCED_PEAK = ", peaks$forced_additional_peak), log = "y")
 
   if (peaks$nb_peaks != 0) {
   points(peaks$peaks_temp - TEMPERATURE_CONVERSION_CONSTANT, peaks$peaks_intensity, col = "red", pch = 19)
-  # legend("topright", legend = "Estimated peak locations", col = "red", pch = 19)#"bottomright", 
+  # legend("topright", legend = "Estimated peak locations", col = "red", pch = 19)#"bottomright",
   }
 
 }
 
 Plot_TL_Curve_with_std  <- function(model_output, temp_std_results, record_num) {
 
-  TEMPERATURE_CONVERSION_CONSTANT <- 273.15 
+  TEMPERATURE_CONVERSION_CONSTANT <- 273.15
 
   temp_std_results$Temperature <- temp_std_results$Temperature - TEMPERATURE_CONVERSION_CONSTANT # Convert to Celsius
 
@@ -1855,7 +1855,7 @@ Plot_TL_Curve_with_std  <- function(model_output, temp_std_results, record_num) 
     intensity_std_norm <- temp_std_results$Intensity_std_norm
 
     plot(temperature, intensity_std_norm, pch=16, xlab="Temperature (°C)",
-        ylab="Normalised intensity std", type="b", col="black", 
+        ylab="Normalised intensity std", type="b", col="black",
         main=paste("Record",record_num), log = "y")
 
   } else {
@@ -1867,7 +1867,7 @@ Plot_TL_Curve_with_std  <- function(model_output, temp_std_results, record_num) 
 
 Plot_TL_Curve_with_extrema <- function(model_output, local_extrema, record_num) {
 
-  TEMPERATURE_CONVERSION_CONSTANT <- 273.15 
+  TEMPERATURE_CONVERSION_CONSTANT <- 273.15
 
   peaks_temp <- local_extrema[local_extrema$source == "Max", "Temperature"]
   peaks_intensity <- local_extrema[local_extrema$source == "Max", "Intensity"]
@@ -1937,11 +1937,11 @@ DIY_TL_peak_intensities_integration <- function(TL_tgcd_results) {
     return(Peak_intensities)
 }
 
-Get_TL_metrics <- function(record_num, model.output, Heat_rate, span, automatic_peak_finder, 
+Get_TL_metrics <- function(record_num, model.output, Heat_rate, span, automatic_peak_finder,
                             INITIAL_ACTIVATION_ENERGY = 1.4, INITIAL_KINETIC_ORDER = 1.5) {
 
 
-  TEMPERATURE_CONVERSION_CONSTANT <- 273.15 
+  TEMPERATURE_CONVERSION_CONSTANT <- 273.15
 
   std_results <- hash()
 
@@ -1967,12 +1967,12 @@ Get_TL_metrics <- function(record_num, model.output, Heat_rate, span, automatic_
         Plot_TL_Curve_with_std(model.output, std_results, record_num)
       }
       peaks <- Add_last_datapoint_for_potential_peak(last_datapoint = tail(df[df$Intensity != 0, ],1),
-                                                    last_local_max = tail(local_extrema[local_extrema$source == "Max", ], 1), 
-                                                    last_local_min = tail(local_extrema[local_extrema$source == "Min", ], 1), 
+                                                    last_local_max = tail(local_extrema[local_extrema$source == "Max", ], 1),
+                                                    last_local_min = tail(local_extrema[local_extrema$source == "Min", ], 1),
                                                     temp_results$peaks)
 
       # Plot_TL_Curve_with_extrema(model.output, local_extrema, record_num)
-      
+
     }
 
     else if (unique(structure_RLum(model.output)['originator']) == ".local") {
@@ -1980,16 +1980,16 @@ Get_TL_metrics <- function(record_num, model.output, Heat_rate, span, automatic_
       print("Data from synthetic signal")
       # Automatic peak detection
       peaks <- Get_initial_peaks(df, span)
-      
-    } 
-    
+
+    }
+
     else {
       print("Unknown originator. Exiting.")
       return()
     }
 
 
-    
+
 
     # Make plot of TL with estimates of peak location
     Plot_TL_Curve(model.output, peaks, record_num)
@@ -2002,7 +2002,7 @@ Get_TL_metrics <- function(record_num, model.output, Heat_rate, span, automatic_
 
 
     # Rough estimates for the parameters then deconvolution
-    knPars <- 
+    knPars <-
       cbind(peaks$peaks_intensity, # Im
             rep(INITIAL_ACTIVATION_ENERGY, peaks$nb_peaks), # E
             peaks$peaks_temp,  # Tm
@@ -2032,7 +2032,7 @@ Get_TL_metrics <- function(record_num, model.output, Heat_rate, span, automatic_
   } else {
 
     windows()
-    plot_RLum(object = model.output, 
+    plot_RLum(object = model.output,
                   main = paste("Record", record_num, " - TL curve with"), log = "y")
 
     peaks <- get_peak_user_inputs(record_num)
@@ -2043,15 +2043,15 @@ Get_TL_metrics <- function(record_num, model.output, Heat_rate, span, automatic_
         return()
       }
 
-    TL_tgcd_results <- tgcd(df, npeak=peaks$nb_peaks, model="g1", 
-                              hr=Heat_rate, edit.inis = FALSE, inisPAR = NULL, 
+    TL_tgcd_results <- tgcd(df, npeak=peaks$nb_peaks, model="g1",
+                              hr=Heat_rate, edit.inis = FALSE, inisPAR = NULL,
                               pickp = "d01")#test this
 
     #Plot peaks individually
     # Plot_TL_Peaks(TL_tgcd_results$comp.sig, peaks$nb_peaks)
 
     Peak_intensities <- DIY_TL_peak_intensities_integration(TL_tgcd_results)
-    
+
     return(list(forced_additional_peak = peaks$forced_additional_peak, nb_peaks = peaks$nb_peaks, peaks_temp = peaks$peaks_temp, peak_intensity = peaks$peaks_intensity, TL_tgcd_results = TL_tgcd_results, Peak_intensities = Peak_intensities))
 
     }
@@ -2107,11 +2107,11 @@ Compute_TL_metrics <- function(sequence, data, automatic_peak_finder) {
 
 
     print(glue("Record number: {record_num}"))
-      
+
     Heat_rate <- SEQ_sequence_renamed[[paste0("TL_", record_num)]][3] # Get hear rate from SEQ file
     # print(glue("Heat rate: {Heat_rate}"))
 
-    output <- Get_TL_metrics(record_num, get_RLum(data, recordType ='TL$' , drop = FALSE)[record_num], 
+    output <- Get_TL_metrics(record_num, get_RLum(data, recordType ='TL$' , drop = FALSE)[record_num],
                             Heat_rate = Heat_rate, span = 5, automatic_peak_finder = automatic_peak_finder)
 
     if (is.null(output$nb_peaks)) {
@@ -2129,7 +2129,7 @@ Compute_TL_metrics <- function(sequence, data, automatic_peak_finder) {
       }
 
     for(peak_num in 1:unforced_nb_peaks) {
-          
+
       TL_hash[[paste0("Record_", record_num)]][["Peak_intensity_max"]][[paste0("Peak_", peak_num)]] <- output$TL_tgcd_results$pars[paste0(glue("{peak_num}th-Peak")), "INTENS(Im)"]
       TL_hash[[paste0("Record_", record_num)]][["Frequency_factor"]][[paste0("Peak_", peak_num)]] <- output$TL_tgcd_results$ff[[paste0(glue("{peak_num}th-Peak"))]]
       TL_hash[[paste0("Record_", record_num)]][["Peak_intensity_integrated"]][[paste0("Peak_", peak_num)]] <- output$Peak_intensities[paste0(glue("Peak.{peak_num}")), "Peak_intensities"]
