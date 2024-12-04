@@ -27,7 +27,7 @@ Perform_CTS_3_sources(
 
 \item{score_threshold}{Select only tracers that have a score above score_threshold}
 
-\item{nb_tracers}{Select the nb_tracer travers with the smallest error}
+\item{nb_tracers}{Number of tracers to be selected (ordered from smallest to largest error)}
 }
 \value{
 Data frame containing scores and errors for the best tracers

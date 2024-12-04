@@ -12,7 +12,7 @@
 #' @param crgeo Data frame containing the CR score for each tracer (from fingerPro::cr_ns())
 #' @param error_threshold Select only tracers that have an error below error_threshold
 #' @param score_threshold Select only tracers that have a score above score_threshold
-#' @param nb_tracers Select the nb_tracer travers with the smallest error
+#' @param nb_tracers Number of tracers to be selected (ordered from smallest to largest error)
 #'
 #' @return Data frame containing scores and errors for the best tracers
 #' @export
