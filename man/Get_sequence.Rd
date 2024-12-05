@@ -23,4 +23,5 @@ https://r-lum.github.io/RLumModel/reference/model_LuminescenceSignals.html
 }
 \examples{
 see vignettes
+
 }

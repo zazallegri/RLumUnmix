@@ -15,16 +15,17 @@
 #' @export
 #'
 #' @examples see vignettes
+#'
 Get_sequence <- function(file_path, lab_dose_rate) {
 
 
 
 
-  print(glue("Reading sequence from {file_path}"))
+  print(glue::glue("Reading sequence from {file_path}"))
   # If path ends with .SEQ
   if (grepl(".SEQ$", file_path)) {
 
-    sequence <- read_SEQ2R(file = file_path,
+    sequence <- RLumModel::read_SEQ2R(file = file_path,
                            lab.dose_rate = lab_dose_rate,
                            txtProgressBar = FALSE)
 
