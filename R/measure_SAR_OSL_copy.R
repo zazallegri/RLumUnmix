@@ -140,7 +140,7 @@ measure_SAR_OSL_copy <- function(
 
 
   #Doesn't return osl_model only. Also want to see what parameters were used in [RLumModel::model_LuminescenceSignals()]
-  output <- hash()
+  output <- hash::hash()
   output$osl_model <- osl_model
   output$parameters <- parameters
   output$sequence <- sequence

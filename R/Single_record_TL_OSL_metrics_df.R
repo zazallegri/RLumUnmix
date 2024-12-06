@@ -11,8 +11,8 @@
 Single_record_TL_OSL_metrics_df <- function(TL_hash, OSL_hash, record_num) {
 
 
-  if ((record_num %in% keys(TL_hash)) &
-      (record_num %in% keys(OSL_hash))) {
+  if ((record_num %in% hash::keys(TL_hash)) &
+      (record_num %in% hash::keys(OSL_hash))) {
 
     single_record_TL_metrics <- TL_metrics_hash_to_dataframe(TL_hash, record_num)
     single_record_OSL_metrics <- OSL_metrics_hash_to_dataframe(OSL_hash, record_num)
@@ -24,8 +24,8 @@ Single_record_TL_OSL_metrics_df <- function(TL_hash, OSL_hash, record_num) {
       output <- single_record_OSL_metrics
     }
 
-  } else if ((record_num %in% keys(TL_hash)) &
-             !(record_num %in% keys(OSL_hash))) {
+  } else if ((record_num %in% hash::keys(TL_hash)) &
+             !(record_num %in% hash::keys(OSL_hash))) {
 
     single_record_TL_metrics <- TL_metrics_hash_to_dataframe(TL_hash, record_num)
 
@@ -39,8 +39,8 @@ Single_record_TL_OSL_metrics_df <- function(TL_hash, OSL_hash, record_num) {
     output <- single_record_TL_metrics
 
 
-  } else if (!(record_num %in% keys(TL_hash)) &
-             (record_num %in% keys(OSL_hash))) {
+  } else if (!(record_num %in% hash::keys(TL_hash)) &
+             (record_num %in% hash::keys(OSL_hash))) {
 
     single_record_OSL_metrics <- OSL_metrics_hash_to_dataframe(OSL_hash, record_num)
     output <- single_record_OSL_metrics

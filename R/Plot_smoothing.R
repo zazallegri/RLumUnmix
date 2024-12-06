@@ -16,12 +16,12 @@ Plot_smoothing <- function(df, smoothing_results, record_num) {
        xlab = "Temperature (°C)",
        ylab = "Intensity",
        col = "black",
-       main = glue("Record {record_num}"),
+       main = gloue::glue("Record {record_num}"),
        log = "y")
 
   # Add the smoothed line
-  lines(smoothing_results$Temperature - TEMPERATURE_CONVERSION_CONSTANT, smoothing_results$Intensity, col = "red")
+  graphics::lines(smoothing_results$Temperature - TEMPERATURE_CONVERSION_CONSTANT, smoothing_results$Intensity, col = "red")
 
   # Add a legend
-  legend("topright", legend = c("Original", "Smoothed"), col = c("black", "red"), lty = 1)
+  graphics::legend("topright", legend = c("Original", "Smoothed"), col = c("black", "red"), lty = 1)
 }

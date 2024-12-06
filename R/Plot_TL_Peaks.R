@@ -22,15 +22,15 @@ Plot_TL_Peaks <- function(df, npeak) {
 
     # Define different line types and colors
     line_types <- 1:ncol(df[, -1])
-    colors <- rainbow(ncol(df[, -1]))
+    colors <- grDevices::rainbow(ncol(df[, -1]))
     colors = c("black", "red")
 
     # Plot all columns against the first column with different styles
-    matplot(df_subset[, 1], df_subset[, -1], type = "l", lty = line_types, col = colors, lwd = 3,
+    graphics::matplot(df_subset[, 1], df_subset[, -1], type = "l", lty = line_types, col = colors, lwd = 3,
             xlab = paste(colnames(df_subset)[1], "(K)"), ylab = "TL intensity (counts)")
 
     # Add a legend
-    legend("topright", legend = colnames(df_subset)[-1], col = colors, lty = line_types)
+    graphics::legend("topright", legend = colnames(df_subset)[-1], col = colors, lty = line_types)
 
   }
 

@@ -5,6 +5,7 @@
 #'
 #'
 #' @return PH temperature (°C) / duration (s) / heating rate (°C/s)
+#' @importFrom tcltk tclvalue tclVar tkbutton tkdestroy tkentry tkgrid tklabel tktoplevel tkwait.window tkwm.title
 #' @export
 #'
 #' @examples see vignettes

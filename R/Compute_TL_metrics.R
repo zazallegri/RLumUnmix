@@ -29,20 +29,20 @@ Compute_TL_metrics <- function(sequence, data, automatic_peak_finder) {
 
   SEQ_sequence_renamed <- Rename_sequence(sequence)
   nb_TL_records <- length(data)
-  print(glue("{nb_TL_records} TL records"))
+  print(glue::glue("{nb_TL_records} TL records"))
 
 
-  TL_hash <- hash()
+  TL_hash <- hash::hash()
 
   for(record_num in 1:nb_TL_records){
 
 
-    print(glue("Record number: {record_num}"))
+    print(glue::glue("Record number: {record_num}"))
 
     Heat_rate <- SEQ_sequence_renamed[[paste0("TL_", record_num)]][3] # Get hear rate from SEQ file
-    # print(glue("Heat rate: {Heat_rate}"))
+    # print(glue::glue("Heat rate: {Heat_rate}"))
 
-    output <- Get_TL_metrics(record_num, get_RLum(data, recordType ='TL$' , drop = FALSE)[record_num],
+    output <- Get_TL_metrics(record_num, Luminescence::get_RLum(data, recordType ='TL$' , drop = FALSE)[record_num],
                              Heat_rate = Heat_rate, span = 5, automatic_peak_finder = automatic_peak_finder)
 
     if (is.null(output$nb_peaks)) {
@@ -61,10 +61,10 @@ Compute_TL_metrics <- function(sequence, data, automatic_peak_finder) {
 
     for(peak_num in 1:unforced_nb_peaks) {
 
-      TL_hash[[paste0("Record_", record_num)]][["Peak_intensity_max"]][[paste0("Peak_", peak_num)]] <- output$TL_tgcd_results$pars[paste0(glue("{peak_num}th-Peak")), "INTENS(Im)"]
-      TL_hash[[paste0("Record_", record_num)]][["Frequency_factor"]][[paste0("Peak_", peak_num)]] <- output$TL_tgcd_results$ff[[paste0(glue("{peak_num}th-Peak"))]]
-      TL_hash[[paste0("Record_", record_num)]][["Peak_intensity_integrated"]][[paste0("Peak_", peak_num)]] <- output$Peak_intensities[paste0(glue("Peak.{peak_num}")), "Peak_intensities"]
-      TL_hash[[paste0("Record_", record_num)]][["Peak_intensity_integrated_relative"]][[paste0("Peak_", peak_num)]] <- output$Peak_intensities[paste0(glue("Peak.{peak_num}")), "Peak_intensities_relative"]
+      TL_hash[[paste0("Record_", record_num)]][["Peak_intensity_max"]][[paste0("Peak_", peak_num)]] <- output$TL_tgcd_results$pars[paste0(glue::glue("{peak_num}th-Peak")), "INTENS(Im)"]
+      TL_hash[[paste0("Record_", record_num)]][["Frequency_factor"]][[paste0("Peak_", peak_num)]] <- output$TL_tgcd_results$ff[[paste0(glue::glue("{peak_num}th-Peak"))]]
+      TL_hash[[paste0("Record_", record_num)]][["Peak_intensity_integrated"]][[paste0("Peak_", peak_num)]] <- output$Peak_intensities[paste0(glue::glue("Peak.{peak_num}")), "Peak_intensities"]
+      TL_hash[[paste0("Record_", record_num)]][["Peak_intensity_integrated_relative"]][[paste0("Peak_", peak_num)]] <- output$Peak_intensities[paste0(glue::glue("Peak.{peak_num}")), "Peak_intensities_relative"]
 
       TL_hash[[paste0("Record_", record_num)]][["Peak_temperature"]][[paste0("Peak_", peak_num)]] <- output$peaks_temp[peak_num]
       TL_hash[[paste0("Record_", record_num)]][["Peak_intensity"]][[paste0("Peak_", peak_num)]] <- output$peak_intensity[peak_num]

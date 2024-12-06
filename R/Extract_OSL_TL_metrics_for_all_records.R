@@ -12,7 +12,7 @@
 Extract_OSL_TL_metrics_for_all_records <- function(TL_hash, OSL_hash, source_number, records_to_extract_data_from = NULL) {
 
   if (is.null(records_to_extract_data_from)) {
-    records_to_extract_data_from <- keys(TL_hash)
+    records_to_extract_data_from <- hash::keys(TL_hash)
   }
 
   metrics <- data.frame(matrix(NA, nrow = 1, ncol = 0))

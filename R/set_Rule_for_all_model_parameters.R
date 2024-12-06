@@ -15,7 +15,7 @@
 set_Rule_for_all_model_parameters <- function(book, depth, populations_parameters) {
 
   var_names <- list()
-  parameter_names <- names(.set_pars("Bailey2001")[1:7])
+  parameter_names <- names(RLumModel::.set_pars("Bailey2001")[1:7])
 
   # Format names in a way that they can be used in the rulebook
   for (parameter_name in parameter_names) {

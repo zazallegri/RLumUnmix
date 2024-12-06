@@ -22,7 +22,7 @@ TL_curve_smoothing <- function(df, record_num, lambda, make_smooth_plot = FALSE)
     return(df)
   }
 
-  smoothing_results$Intensity <- whittaker(y = smoothing_results$Intensity, lambda = lambda, d = 2)
+  smoothing_results$Intensity <- pracma::whittaker(y = smoothing_results$Intensity, lambda = lambda, d = 2)
 
   data <- data.frame(x = smoothing_results$Temperature, y = smoothing_results$Intensity)
   colnames(data) <- c("Temperature", "Intensity")

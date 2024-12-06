@@ -30,11 +30,11 @@ Make_luminescence_rulebook <- function(populations_parameters, pop_ratios) {
   # In addition, also adds the 7 parameters of Bailey2001 to the rule book
   # -> (N, E, s, A B, Th, E_th) preceded by "osl_". (1-9 for N, E, s, A B and 1-5 for Th, E_th)
   # Also adds osl_doserate and osl_R
-  book_osl<-get_RuleBook(book="empty",
+  book_osl<-sandbox::get_RuleBook(book="empty",
                          osl="Bailey2001")
 
   ## add another populations
-  book_osl <- add_Population(book = book_osl,
+  book_osl <- sandbox::add_Population(book = book_osl,
                              populations = nb_populations-1)#first pop is added by default in get_RuleBook()
 
   ## Change age depth data
@@ -68,13 +68,13 @@ Make_luminescence_rulebook <- function(populations_parameters, pop_ratios) {
 
 
   ## add population contribution with depth
-  book_osl<-set_Rule(book=book_osl,
+  book_osl <- sandbox::set_Rule(book=book_osl,
                      parameter="population",
                      value=population_proportion_fill,
                      depth=depth_true)
 
   # update rulebook with true age and depth definition
-  book_osl<-set_Rule(book=book_osl,
+  book_osl <- sandbox::set_Rule(book=book_osl,
                      parameter="age",
                      value=age_true,
                      depth=depth_true)
@@ -84,7 +84,7 @@ Make_luminescence_rulebook <- function(populations_parameters, pop_ratios) {
   ## update rulebook with default luminescence model parameters
   # set_Rule() for all 7 model parameters + osl_R (mean = value from .set_pars(), sd = 0)
   # osl_doserate to be set seperately
-  book_osl<-set_Rule(book=book_osl,
+  book_osl <- sandbox::set_Rule(book=book_osl,
                      parameter="Bailey2001",
                      depth=depth_true)
 
@@ -98,7 +98,7 @@ Make_luminescence_rulebook <- function(populations_parameters, pop_ratios) {
 
 
 
-  book_osl<-set_Rule(book=book_osl,
+  book_osl <- sandbox::set_Rule(book=book_osl,
                      parameter="grainsize",
                      value=gsd_fill,
                      depth=depth_true)

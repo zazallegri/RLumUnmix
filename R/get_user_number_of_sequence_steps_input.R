@@ -5,6 +5,7 @@
 #'
 #'
 #' @return Number of steps in the manually created sequence
+#' @importFrom tcltk tclvalue tclVar tkbutton tkdestroy tkentry tkgrid tklabel tktoplevel tkwait.window tkwm.title
 #' @export
 #'
 #' @examples see vignettes

@@ -49,7 +49,7 @@ Average_neighbouring_points_filtering <- function(peaks, smoothing_data, neighbo
   peaks$peaks_temp <- peaks_neighbour_intensity_avg$Temperature
   peaks$peaks_intensity <- peaks_neighbour_intensity_avg$Intensity
 
-  print(glue("Average_neighbouring_points_filtering() deleted {OG_length - length(peaks$peaks_temp)} peaks."))
+  print(glue::glue("Average_neighbouring_points_filtering() deleted {OG_length - length(peaks$peaks_temp)} peaks."))
 
   return(peaks)
 

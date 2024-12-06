@@ -23,7 +23,7 @@
 Make_custom_model_and_retrieve_OSL_TL_metrics <- function(sequence, dose_rate, own_parameters, own_state_parameters) {
 
 
-  sandbox_model <- model_LuminescenceSignals(
+  sandbox_model <- RLumModel::model_LuminescenceSignals(
     model = "customized",
     sequence = sequence,
     lab.dose_rate = dose_rate,
@@ -34,16 +34,16 @@ Make_custom_model_and_retrieve_OSL_TL_metrics <- function(sequence, dose_rate, o
     simulate_sample_history = FALSE)
 
 
-  OSL_metrics <- hash()
-  TL_metrics <- hash()
+  OSL_metrics <- hash::hash()
+  TL_metrics <- hash::hash()
 
 
   if ("OSL" %in% names(sequence)) {
-    OSL_data <- get_RLum(sandbox_model, recordType ="OSL$", drop = FALSE)
+    OSL_data <- Luminescence::get_RLum(sandbox_model, recordType ="OSL$", drop = FALSE)
     OSL_metrics <- Compute_OSL_metrics(sequence = sequence, data = OSL_data)
   }
   if ("TL" %in% names(sequence)) {
-    TL_data <- get_RLum(sandbox_model, recordType ="TL$", drop = FALSE)
+    TL_data <- Luminescence::get_RLum(sandbox_model, recordType ="TL$", drop = FALSE)
     TL_metrics <- Compute_TL_metrics(sequence = sequence, data = TL_data, automatic_peak_finder = TRUE)
   }
 

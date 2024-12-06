@@ -5,7 +5,10 @@
 #'
 #'
 #' @return OSL temperature (°C) / durations (s) / optical power (%)
+#' @importFrom tcltk tclvalue tclVar tkbutton tkdestroy tkentry tkgrid tklabel tktoplevel tkwait.window tkwm.title
 #' @export
+#'
+#'
 #'
 #' @examples see vignettes
 get_OSL_user_inputs <- function() {

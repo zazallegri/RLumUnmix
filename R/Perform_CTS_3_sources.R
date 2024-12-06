@@ -28,8 +28,8 @@ Perform_CTS_3_sources <- function(tracer_pair, mgeo, sgeo, crgeo, error_threshol
   if ((is.null(nb_tracers)) & (!is.null(error_threshold)) & (!is.null(score_threshold))) {
 
     sol <- pgeo[pgeo$id==tracer_pair,]
-    ctsgeo <- cts_3s(source = sgeo, mixture = mgeo, sol = c(sol$w1, sol$w2, sol$w3))
-    ctsgeo <- ctsgeo %>% right_join(crgeo, by = c("tracer"))
+    ctsgeo <- fingerPro::cts_3s(source = sgeo, mixture = mgeo, sol = c(sol$w1, sol$w2, sol$w3))
+    ctsgeo <- ctsgeo %>% dplyr::right_join(crgeo, by = c("tracer"))
     complete_ctsgeo <- ctsgeo
     ctsgeo <- ctsgeo[ctsgeo$err <= error_threshold & ctsgeo$score >= score_threshold,]
 
@@ -37,8 +37,8 @@ Perform_CTS_3_sources <- function(tracer_pair, mgeo, sgeo, crgeo, error_threshol
   } else if ((!is.null(nb_tracers)) & (is.null(error_threshold)) & (!is.null(score_threshold))) {
 
     sol <- pgeo[pgeo$id==tracer_pair,]
-    ctsgeo <- cts_3s(source = sgeo, mixture = mgeo, sol = c(sol$w1, sol$w2, sol$w3))
-    ctsgeo <- ctsgeo %>% right_join(crgeo, by = c("tracer"))
+    ctsgeo <- fingerPro::cts_3s(source = sgeo, mixture = mgeo, sol = c(sol$w1, sol$w2, sol$w3))
+    ctsgeo <- ctsgeo %>% dplyr::right_join(crgeo, by = c("tracer"))
     complete_ctsgeo <- ctsgeo
     ctsgeo <- ctsgeo[ctsgeo$score >= score_threshold,]
     ctsgeo <- ctsgeo[order(ctsgeo$err),]

@@ -30,7 +30,7 @@ Add_last_datapoint_for_potential_peak <- function(last_datapoint, last_local_max
       peaks_temp <- c(peaks_temp, last_datapoint$Temperature)
       peaks_intensity <- c(peaks_intensity, last_datapoint$Intensity)
       forced_additional_peak <- TRUE
-      print(glue("Forced additional peak located at ({last_datapoint$Temperature}, {last_datapoint$Intensity}). Total peaks : {length(peaks_temp)}"))
+      print(glue::glue("Forced additional peak located at ({last_datapoint$Temperature}, {last_datapoint$Intensity}). Total peaks : {length(peaks_temp)}"))
 
     }
     else {

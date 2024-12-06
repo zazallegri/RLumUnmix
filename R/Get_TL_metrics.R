@@ -20,10 +20,10 @@ Get_TL_metrics <- function(record_num, model.output, Heat_rate, span, automatic_
 
   TEMPERATURE_CONVERSION_CONSTANT <- 273.15
 
-  std_results <- hash()
+  std_results <- hash::hash()
 
   # Assuming the DataFrame is obtained from get_RLum
-  df <- setNames(as.data.frame(get_RLum(get_RLum(model.output))), c("Temperature", "Intensity"))
+  df <- stats::setNames(as.data.frame(Luminescence::get_RLum(Luminescence::get_RLum(model.output))), c("Temperature", "Intensity"))
 
   # Convert the temperature to Kelvin for the TGCD function
   df[, "Temperature"] <- df[, "Temperature"] + TEMPERATURE_CONVERSION_CONSTANT
@@ -31,7 +31,7 @@ Get_TL_metrics <- function(record_num, model.output, Heat_rate, span, automatic_
 
   if (automatic_peak_finder) {
 
-    if (unique(structure_RLum(model.output)['originator'] == ".Risoe.BINfileData2RLum.Data.Curve")) {
+    if (unique(Luminescence::structure_RLum(model.output)['originator'] == ".Risoe.BINfileData2RLum.Data.Curve")) {
 
       print("Data from experimental signal")
       data <- TL_curve_smoothing(df, record_num, lambda = 50)
@@ -52,7 +52,7 @@ Get_TL_metrics <- function(record_num, model.output, Heat_rate, span, automatic_
 
     }
 
-    else if (unique(structure_RLum(model.output)['originator']) == ".local") {
+    else if (unique(Luminescence::structure_RLum(model.output)['originator']) == ".local") {
 
       print("Data from synthetic signal")
       # Automatic peak detection
@@ -85,7 +85,7 @@ Get_TL_metrics <- function(record_num, model.output, Heat_rate, span, automatic_
             peaks$peaks_temp,  # Tm
             rep(INITIAL_KINETIC_ORDER, peaks$nb_peaks))  # b ranges between 1-2
 
-    TL_tgcd_results <- tgcd(df, npeak=length(peaks$peaks_intensity), model="g1",
+    TL_tgcd_results <- tgcd::tgcd(df, npeak=length(peaks$peaks_intensity), model="g1",
                             inisPAR=knPars, edit.inis=FALSE, hr=Heat_rate, plot = FALSE)
 
     #Plot peaks individually
@@ -108,8 +108,8 @@ Get_TL_metrics <- function(record_num, model.output, Heat_rate, span, automatic_
     return(list(forced_additional_peak = peaks$forced_additional_peak, nb_peaks = peaks$nb_peaks, peaks_temp = peaks$peaks_temp, peak_intensity = peaks$peaks_intensity, TL_tgcd_results = TL_tgcd_results, Peak_intensities = Peak_intensities))
   } else {
 
-    windows()
-    plot_RLum(object = model.output,
+    grDevices::windows()
+    Luminescence::plot_RLum(object = model.output,
               main = paste("Record", record_num, " - TL curve with"), log = "y")
 
     peaks <- get_peak_user_inputs(record_num)
@@ -120,7 +120,7 @@ Get_TL_metrics <- function(record_num, model.output, Heat_rate, span, automatic_
       return()
     }
 
-    TL_tgcd_results <- tgcd(df, npeak=peaks$nb_peaks, model="g1",
+    TL_tgcd_results <- tgcd::tgcd(df, npeak=peaks$nb_peaks, model="g1",
                             hr=Heat_rate, edit.inis = FALSE, inisPAR = NULL,
                             pickp = "d01")#test this
 

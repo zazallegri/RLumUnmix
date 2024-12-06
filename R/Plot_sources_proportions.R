@@ -16,7 +16,7 @@ Plot_sources_proportions <- function(result_FP_long, filename, data_sol, Populat
   # Get number of tracers used for the unmixing
   nb_tracers <- length(colnames(data_sol)[!(colnames(data_sol) %in% c("id", "sources", "n"))])/2
 
-  par(bg = "white")
+  graphics::par(bg = "white")
 
   if (!is.null(tracer_pair)) {
     # Add tracer pair to the plot
@@ -31,13 +31,13 @@ Plot_sources_proportions <- function(result_FP_long, filename, data_sol, Populat
                     main = title,
                     xlab = "Variable", ylab = "Value", col = "lightgray", ylim = c(-0.1, 1.1))
 
-  grid(nx = NULL, ny = NULL, col = "lightgray", lty = "dotted")
+  graphics::grid(nx = NULL, ny = NULL, col = "lightgray", lty = "dotted")
 
   if (!is.null(Population_fraction)) {
     # Add red points
     points_plot <- Population_fraction[Population_fraction$sources != 'Mixed', ]
     points_plot$sources_int <- as.integer(gsub("S", "", points_plot$sources))
-    points(points_plot$sources_int, points_plot$Pop_fraction, col = "red", pch = 19, cex = 1.5)
+    graphics::points(points_plot$sources_int, points_plot$Pop_fraction, col = "red", pch = 19, cex = 1.5)
   }
 
 }

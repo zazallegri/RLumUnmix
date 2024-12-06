@@ -17,13 +17,13 @@ get_peak_user_inputs <- function(record_num) {
 
 
   {
-    nb_peaks = readline(glue("Enter total number of peaks for record {record_num}: "))
+    nb_peaks = readline(glue::glue("Enter total number of peaks for record {record_num}: "))
     nb_peaks <- as.numeric(nb_peaks)
 
     if (nb_peaks == 0) {
       forced_additional_peak <- FALSE
     } else {
-      forced_additional_peak <- readline(glue("Forced additional last (incomplete) peaks for record {record_num} (TRUE or FALSE)? "))
+      forced_additional_peak <- readline(glue::glue("Forced additional last (incomplete) peaks for record {record_num} (TRUE or FALSE)? "))
       forced_additional_peak <- as.logical(forced_additional_peak)
     }
   }

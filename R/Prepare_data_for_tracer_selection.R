@@ -18,7 +18,7 @@ Prepare_data_for_tracer_selection <- function(data_path) {
 
 
   # Read stacked_df
-  stacked_df <- read.csv(file = data_path)
+  stacked_df <- utils::read.csv(file = data_path)
 
   # Delete columns that contains only zeros
   stacked_df <- stacked_df[, colSums(stacked_df != 0, na.rm = TRUE) > 0]
@@ -36,7 +36,7 @@ Prepare_data_for_tracer_selection <- function(data_path) {
     stacked_df <- stacked_df[, -ncol(stacked_df)]
 
     # groupby "sources" and keep mean value
-    Population_fraction <- Population_fraction %>% group_by(sources) %>% summarise(Pop_fraction = mean(Pop_fraction))
+    Population_fraction <- Population_fraction %>% dplyr::group_by(sources) %>% dplyr::summarise(Pop_fraction = mean(Pop_fraction))
 
   } else {
     Population_fraction <- NULL
@@ -50,8 +50,8 @@ Prepare_data_for_tracer_selection <- function(data_path) {
   # Add new first column names id
   data <- cbind(id = seq_len(nrow(stacked_df)), stacked_df)
 
-  sgeo <- inputSource(data)
-  mgeo <- inputSample(data)
+  sgeo <- fingerPro::inputSource(data)
+  mgeo <- fingerPro::inputSample(data)
 
   return(list(sgeo = sgeo, mgeo = mgeo, Population_fraction = Population_fraction, source_list = source_list, stacked_df_OG = stacked_df_OG))
 }

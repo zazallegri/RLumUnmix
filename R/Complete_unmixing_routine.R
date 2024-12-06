@@ -80,7 +80,7 @@ Complete_unmixing_routine <- function(mgeo, sgeo, crgeo, source_list, Population
                                                         tracer_pair)
     proportions <- output$proportions
     ratio_differences <- output$ratio_differences
-    metrics <- do.call(data.frame, aggregate(. ~ id, data = output$unmixing_results, function(x) c(mean = mean(x), SD = sd(x))))
+    metrics <- do.call(data.frame, stats::aggregate(. ~ id, data = output$unmixing_results, function(x) c(mean = mean(x), SD = stats::sd(x))))
     metrics <- Get_metrics_for_proprotions_selection(metrics, filename, tracer_pair, ctsgeo, source_list, ratio_differences, proportions, error_threshold, score_threshold, nb_tracer)
 
   } else if ((nrow(ctsgeo) > 1) & (!is.null(tracer_pair))) {
@@ -100,7 +100,7 @@ Complete_unmixing_routine <- function(mgeo, sgeo, crgeo, source_list, Population
                                                         tracer_pair)
     proportions <- output$proportions
     ratio_differences <- output$ratio_differences
-    metrics <- do.call(data.frame, aggregate(. ~ id, data = output$unmixing_results, function(x) c(mean = mean(x), SD = sd(x))))
+    metrics <- do.call(data.frame, stats::aggregate(. ~ id, data = output$unmixing_results, function(x) c(mean = mean(x), SD = sd(x))))
     metrics <- Get_metrics_for_proprotions_selection(metrics, filename, tracer_pair, ctsgeo, source_list, ratio_differences, proportions, error_threshold, score_threshold, nb_tracer)
 
 

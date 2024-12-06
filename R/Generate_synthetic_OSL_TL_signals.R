@@ -20,7 +20,7 @@
 Generate_synthetic_OSL_TL_signals <- function(sequence, model = "Bailey2001") {
 
 
-  data <- model_LuminescenceSignals(
+  data <- RLumModel::model_LuminescenceSignals(
     sequence = sequence,
     model = model,
     plot = FALSE,

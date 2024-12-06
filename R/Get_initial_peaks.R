@@ -15,7 +15,7 @@ Get_initial_peaks <- function(df, span) {
 
 
   local_min_max <- inflect(df[, "Intensity"], threshold = span)
-  peaks <- hash()
+  peaks <- hash::hash()
   peaks$peaks_temp <- df[local_min_max$maxima, "Temperature"]
   peaks$peaks_intensity <- df[local_min_max$maxima, "Intensity"]
   peaks$nb_peaks <- length(peaks$peaks_temp)

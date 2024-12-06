@@ -13,11 +13,11 @@ Get_OSL_metrics <- function(model.output, IRR_dose, make_plot = TRUE) {
   if (make_plot) {
 
     ## Plot the OSL curve
-    plot_RLum(object = model.output, log = "y")
+    Luminescence::plot_RLum(object = model.output, log = "y")
   }
 
 
-  fit <- fit_CWCurve(as.data.frame(get_RLum(model.output)), output.terminal = FALSE)
+  fit <- Luminescence::fit_CWCurve(as.data.frame(Luminescence::get_RLum(model.output)), output.terminal = FALSE)
 
   if (length(fit$data) == 1 && is.na(fit$data)) {
     print("No fit found. Exiting.")
@@ -28,7 +28,7 @@ Get_OSL_metrics <- function(model.output, IRR_dose, make_plot = TRUE) {
     #Get list of components
     nb_components <- fit$data$n.components
     components <- as.character(seq(1, nb_components))
-    print(glue("{nb_components} component(s) found in the OSL curve."))
+    print(glue::glue("{nb_components} component(s) found in the OSL curve."))
 
     ## Get photoionisation cross section
     cs_df <- Get_specific_columns(fit, "cs", components)

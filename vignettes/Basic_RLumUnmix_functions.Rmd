@@ -1,0 +1,71 @@
+---
+title: "Basic RLumUnmix functions"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Basic RLumUnmix functions}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(RLumUnmix)
+
+data_path <- system.file("extdata", package="RLumUnmix")
+
+```
+
+# Read/Create sequence
+## Read .SEQ sequence
+``` {r}
+example_sequence <- Get_sequence(file_path = paste0(data_path, "/SEQ_file.SEQ"), lab_dose_rate = 0.2)
+example_sequence
+
+
+```
+
+## Create sequence manually
+
+```{r}
+manual_sequence <- Create_sequence_manually()
+manual_sequence
+
+```
+
+### Save as .RData
+
+```{r}
+saveRDS(manual_sequence, file = paste0(data_path, "manual_sequence.RData"), compress = FALSE)
+```
+
+### Now it can be read with Get_sequence()
+
+```{r}
+example_manual_sequence <- Get_sequence(file_path = paste0(data_path, "manual_sequence.RData"), lab_dose_rate = 0.2)
+example_manual_sequence
+
+```
+# Compute OSL and TL metrics from synthetic/lab signals
+
+## Generate synthetic OSL and TL signals
+```{r}
+data <- Generate_synthetic_OSL_TL_signals(sequence = example_sequence, model = "Bailey2001")
+data
+
+```
+## Extract metrics from OSL and TL signals
+
+```{r}
+OSL_metrics <- Compute_OSL_metrics(sequence = example_sequence, data = RLUmModel::get_RLum(data, recordType ='OSL$' , drop = FALSE))
+TL_metrics <- Compute_TL_metrics(sequence = example_sequence, data = RLUmModel::get_RLum(data, recordType ='TL$' , drop = FALSE), automatic_peak_finder =  TRUE)
+
+TL_metrics
+```
+
+

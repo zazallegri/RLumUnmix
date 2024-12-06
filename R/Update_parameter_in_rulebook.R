@@ -17,7 +17,7 @@ Update_parameter_in_rulebook <- function(book, parameter_name, depth, population
   n_depth <- length(depth[[1]])
   par_value <- Get_param_normal_dist_list_of_values(parameter_name = parameter_name, populations_parameters, n_depth)
 
-  updated_book <- set_Rule(book = book,
+  updated_book <- sandbox::set_Rule(book = book,
                            parameter = parameter_name,
                            value = par_value,
                            depth = depth)

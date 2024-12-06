@@ -11,7 +11,7 @@
 Select_data_for_unmixing <- function(sgeo, mgeo, unmixing_tracers) {
 
 
-  data_extended <- bind_rows(sgeo, mgeo)
+  data_extended <- dplyr::bind_rows(sgeo, mgeo)
   # Add id as first column
   data_extended <- cbind(id = seq_len(nrow(data_extended)), data_extended)
   # Change colname

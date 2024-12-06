@@ -20,11 +20,11 @@ Plot_TL_Curve_with_extrema <- function(model_output, local_extrema, record_num) 
   nb_peaks <- length(peaks_temp)
   nb_valleys <- length(valleys_temp)
 
-  plot_RLum(object = model_output, log = "y", main = paste("Record ", record_num, "- Thermoluminescence (TL) curve with", nb_peaks, "peaks and", nb_valleys, "valleys"))
+  Luminescence::plot_RLum(object = model_output, log = "y", main = paste("Record ", record_num, "- Thermoluminescence (TL) curve with", nb_peaks, "peaks and", nb_valleys, "valleys"))
   if (nb_peaks != 0 | nb_valleys != 0) {
-    points(peaks_temp - TEMPERATURE_CONVERSION_CONSTANT, peaks_intensity, col = "red", pch = 19)
-    points(valleys_temp - TEMPERATURE_CONVERSION_CONSTANT, valleys_intensity, col = "blue", pch = 19)
-    legend("bottomright", legend = c("Estimated peak locations", "Estimated valley locations"), col = c("red", "blue"), pch = 19)
+    graphics::points(peaks_temp - TEMPERATURE_CONVERSION_CONSTANT, peaks_intensity, col = "red", pch = 19)
+    graphics::points(valleys_temp - TEMPERATURE_CONVERSION_CONSTANT, valleys_intensity, col = "blue", pch = 19)
+    graphics::legend("bottomright", legend = c("Estimated peak locations", "Estimated valley locations"), col = c("red", "blue"), pch = 19)
   }
 
 }

@@ -16,8 +16,8 @@ Keep_relevant_peaks <- function(local_extrema, df, smoothing_data,
                                 std_computation_window_size_degrees = 75,
                                 std_threshold = 0) {
 
-  peaks <- hash()
-  results <- hash()
+  peaks <- hash::hash()
+  results <- hash::hash()
 
   # Consecutive min/max should have a difference of at least 20
   results$peaks <- Consecutive_min_max_intensity_threshold_check(local_extrema,

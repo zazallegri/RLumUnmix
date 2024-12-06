@@ -19,9 +19,9 @@ Plot_unmixing_proportions_and_get_results <- function(data_sol, source_list, Pop
   ratio_differences <- data.frame()
 
   # Let's unmix the multiple solutions
-  result_FP <- unmix(data_sol, Means = T)#samples = 200, iter = 200,
+  result_FP <- fingerPro::unmix(data_sol, Means = T)#samples = 200, iter = 200,
 
-  P_FP <- plotResults(result_FP, y_high = 1)#, colors = c("#CC0000",  "#33CCFF", "#9933CC"))
+  P_FP <- fingerPro::plotResults(result_FP, y_high = 1)#, colors = c("#CC0000",  "#33CCFF", "#9933CC"))
 
 
   # Melt the dataframe to long format for ggplot2
@@ -44,11 +44,11 @@ Plot_unmixing_proportions_and_get_results <- function(data_sol, source_list, Pop
   proportions_current <- result_FP_long %>%
     group_by(variable) %>%
     summarise(mean = mean(value),
-              median = median(value),
-              sd = sd(value),
+              median = stats::median(value),
+              sd = stats::sd(value),
               n = n(),
-              Q25 = unname(quantile(value, .25)),
-              Q75 = unname(quantile(value, .75))) %>%
+              Q25 = unname(stats::quantile(value, .25)),
+              Q75 = unname(stats::quantile(value, .75))) %>%
     mutate(lower.ci = mean - z_value * sqrt(mean * (1 - mean) / n),
            upper.ci = mean + z_value * sqrt(mean * (1 - mean) / n))
 

@@ -3,6 +3,7 @@
 #' @param i Step number in the sequence
 #'
 #' @return Sequence step PH, IRR, OSL or TL
+#' @importFrom tcltk tclvalue tclVar tkbutton tkdestroy tkentry tkgrid tklabel tktoplevel tkwait.window tkwm.title
 #' @export
 #'
 #' @examples see vignettes
@@ -26,7 +27,7 @@ get_user_sequence_step_input <- function(i) {
   submit_button <- tkbutton(tt, text = "Submit", command = submit)
 
   # Arrange the widgets in the window
-  tkgrid(tklabel(tt, text = glue("Enter sequence step {i}:\nPH, IRR, OSL or TL")), entry)
+  tkgrid(tklabel(tt, text = glue::glue("Enter sequence step {i}:\nPH, IRR, OSL or TL")), entry)
   tkgrid(submit_button)
 
   # Wait for the user to submit the input

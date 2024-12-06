@@ -30,9 +30,9 @@ Compute_OSL_metrics <- function(sequence, data) {
 
   SEQ_sequence_renamed <- Rename_sequence(sequence)
   nb_OSL_records <- length(data)
-  print(glue("{nb_OSL_records} OSL records"))
+  print(glue::glue("{nb_OSL_records} OSL records"))
 
-  OSL_hash <- hash()
+  OSL_hash <- hash::hash()
 
   for (record_num in 1:nb_OSL_records) {
 

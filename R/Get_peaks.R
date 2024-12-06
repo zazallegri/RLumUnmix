@@ -17,11 +17,11 @@ Get_peaks <- function(df, span) {
 
 
 
-  peak_loc_logical <- find_peaks(df[, "Intensity"], span = span)
+  peak_loc_logical <- ggpmisc::find_peaks(df[, "Intensity"], span = span)
   peaks_temp <- df[peak_loc_logical, "Temperature"]
   peaks_intensity <- df[peak_loc_logical, "Intensity"]
   nb_peaks <- length(peaks_temp)
-  print(glue("Peaks temp :{peaks_temp} "))
+  print(glue::glue("Peaks temp :{peaks_temp} "))
 
   return(list(peaks_temp = peaks_temp, peaks_intensity = peaks_intensity, nb_peaks = nb_peaks))
 

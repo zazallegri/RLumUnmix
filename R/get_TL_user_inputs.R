@@ -6,6 +6,7 @@
 #'
 #'
 #' @return TL begin/end temperature (°C) and heat rate (°C/s)
+#' @importFrom tcltk tclvalue tclVar tkbutton tkdestroy tkentry tkgrid tklabel tktoplevel tkwait.window tkwm.title
 #' @export
 #'
 #' @examples see vignettes
