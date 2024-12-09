@@ -22,7 +22,7 @@ Get_initial_peaks <- function(df, span) {
   peaks$forced_additional_peak <- FALSE
 
 
-  output <- Add_last_datapoint_for_potential_peak(last_datapoint = tail(df,v1),
+  output <- Add_last_datapoint_for_potential_peak(last_datapoint = tail(df,1),
                                                   last_local_max = tail(df[local_min_max$maxima,], 1),
                                                   last_local_min = tail(df[local_min_max$minima,], 1),
                                                   peaks)
