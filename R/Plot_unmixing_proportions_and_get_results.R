@@ -42,14 +42,14 @@ Plot_unmixing_proportions_and_get_results <- function(data_sol, source_list, Pop
   ## CI for proportion https://www.statology.org/confidence-interval-proportion/
   z_value<- 1.96# for 95% confidence interval/ 1.645 for 90% confidence interval / 2.58 for 99% confidence interval
   proportions_current <- result_FP_long %>%
-    group_by(variable) %>%
-    summarise(mean = mean(value),
+    dplyr::group_by(variable) %>%
+    dplyr::summarise(mean = mean(value),
               median = stats::median(value),
               sd = stats::sd(value),
-              n = n(),
+              n = dplyr::n(),
               Q25 = unname(stats::quantile(value, .25)),
               Q75 = unname(stats::quantile(value, .75))) %>%
-    mutate(lower.ci = mean - z_value * sqrt(mean * (1 - mean) / n),
+    dplyr::mutate(lower.ci = mean - z_value * sqrt(mean * (1 - mean) / n),
            upper.ci = mean + z_value * sqrt(mean * (1 - mean) / n))
 
   # add filename as first column of proportions
