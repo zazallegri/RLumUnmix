@@ -29,3 +29,4 @@ It package was created by Balthazar Allegri (balthazar.allegri@bluewin.ch) over 
 
 Note that I had no prior knowledge on luminescence or R-programming, comments/improvements are hence most welcome!
 
+
