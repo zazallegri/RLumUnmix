@@ -2,6 +2,8 @@
 
 The **R** package `'RLumUnmix'` is a collection of R functions intended to be used for provenance analyses. It allows you to generate synthetic TL and OSL signals based on the parameters of the physical model ["Bailey2001"](https://www.sciencedirect.com/science/article/pii/S1350448700001001), using the R packages [Luminescence](https://github.com/R-Lum/Luminescence) and [RLumModel](https://github.com/R-Lum/RLumModel). Different parameters enable to generate various signals corresponding to different sources, that can then be "mixed" synthetically with the [sandbox](https://github.com/coffeemuggler/sandbox) package. Finally, the extracted synthetic sediment section can be unmixed using the [fingerPro](https://github.com/eead-csic-eesa/fingerPro) package (included in `'RLumUnmix'`) in order to decompose the set of luminescence signals into provenance components (percentage of contribution of each source). Additionally, this package can also be used to perform the same analyses but from "real world" sediments, by reading data from BIN/BINX files.
 
+![results_image](https://github.com/user-attachments/assets/d98bd5be-43ac-48a2-852a-2782e5d29a84)
+
 
 ## Installation
 
@@ -28,5 +30,6 @@ The package comes without any guarantee!
 It package was created by Balthazar Allegri (balthazar.allegri@bluewin.ch) over the course of 4 months, in the context of my civil service, as part of the [ICE group](https://wp.unil.ch/ice/) of the University of Lausanne (UNIL). I was supervised by Christoph Schmidt (christoph.schmidt@unil.ch), Senior Scientist at UNIL. 
 
 Note that I had no prior knowledge on luminescence or R-programming, comments/improvements are hence most welcome!
+
 
 
