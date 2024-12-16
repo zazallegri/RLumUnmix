@@ -12,7 +12,7 @@ Description: The R package 'RLumUnmix' is a collection of R functions intended t
             decompose the set of luminescence signals into provenance components (percentage of contribution 
             of each source). Additionally, this package can also be used to perform the same analyses but from 
             "real world" sediments, by reading data from BIN/BINX files.
-License: use_gpl3_license()
+License: GPL (>= 3)
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.2
