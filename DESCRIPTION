@@ -2,7 +2,8 @@ Package: RLumUnmix
 Title: Decomposes luminescence signals into provenance components
 Version: 0.0.0.9000
 Authors@R: 
-    person("Balthazar", "Allegri", , "balthazar.allegri@bluewin.ch", role = c("aut", "cre"))
+    person("Balthazar", "Allegri", , "balthazar.allegri@bluewin.ch", role = c("aut", "cre")),
+    person("Christoph", "Schmidt", , "christoph.schmidt@unil.ch", role = c("ctb", "ths"))
 Description: The R package 'RLumUnmix' is a collection of R functions intended to be 
             used for provenance analyses. It allows you to generate synthetic TL and OSL signals based on 
             the parameters of the physical model "Bailey2001", using the R packages Luminescence and RLumModel. 
