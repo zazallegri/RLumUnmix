@@ -1,11 +1,18 @@
 Package: RLumUnmix
-Title: What the Package Does (One Line, Title Case)
+Title: Decomposes luminescence signals into provenance components
 Version: 0.0.0.9000
 Authors@R: 
-    person("First", "Last", , "first.last@example.com", role = c("aut", "cre"))
-Description: What the package does (one paragraph).
-License: `use_mit_license()`, `use_gpl3_license()` or friends to pick a
-    license
+    person("Balthazar", "Allegri", , "balthazar.allegri@bluewin.ch", role = c("aut", "cre"))
+Description: The R package 'RLumUnmix' is a collection of R functions intended to be 
+            used for provenance analyses. It allows you to generate synthetic TL and OSL signals based on 
+            the parameters of the physical model "Bailey2001", using the R packages Luminescence and RLumModel. 
+            Different parameters enable to generate various signals corresponding to different sources, 
+            that can then be "mixed" synthetically with the sandbox package. Finally, the extracted synthetic 
+            sediment section can be unmixed using the fingerPro package (included in 'RLumUnmix') in order to 
+            decompose the set of luminescence signals into provenance components (percentage of contribution 
+            of each source). Additionally, this package can also be used to perform the same analyses but from 
+            "real world" sediments, by reading data from BIN/BINX files.
+License: use_gpl3_license()
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.2
