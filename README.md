@@ -6,6 +6,7 @@ Two results of the unmixing of two sources:
 
 <img src="https://github.com/user-attachments/assets/d98bd5be-43ac-48a2-852a-2782e5d29a84" alt="results_image" width="450"/>
 <img src="https://github.com/user-attachments/assets/e495f11c-0525-4d52-b85b-c8dbf54c8481" alt="b0f7647f-d192-4fb2-9ee1-fe618e904bb4![Uploading b0f7647f-d192-4fb2-9ee1-fe618e904bb4.png…]()" width="450"/>
+<img src="https://github.com/user-attachments/assets/ff0d740e-1097-4889-8863-10f5d6a9c315" alt="0 25-0 5-0 25_all_sequence_plot" width="450"/>
 
 
 
